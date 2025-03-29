@@ -5,7 +5,7 @@ public class Character {
     private String name;
     private int XP;
     private int health;
-    private String item;
+    private String items;
 
     /**
      * @param name
@@ -15,7 +15,7 @@ public class Character {
         this.name = name;
         this.health = health;
         this.XP = 0;
-        this.item = null;
+        this.items = "";
     }
 
     public String getName() {
@@ -30,12 +30,63 @@ public class Character {
         return health;
     }
 
-    public void setItem(String item) {
-        this.item = item;
+    public void setItems(String items) {
+        this.items = items;
     }
 
-    public String getItem() {
-        return item;
+    public String getItems() {
+        return items;
+    }
+
+    /**
+     * Adds an item to character items list
+     * If list is emptry, item added as is
+     * else appends after comma
+     * 
+     * @param item to add
+     */
+    public void addItem(String item) {
+        if (items.isEmpty()) {
+            items = item.trim();
+        } else {
+            items += ", " + item.trim();
+        }
+    }
+
+    /**
+     * Remove specified item form character items list
+     * ignore case, remove if the item is found
+     * 
+     * @param item to remove
+     */
+    public void removeItem(String item) {
+        if (items.isEmpty()) {
+            return;
+        }
+        String[] parts = items.split(",");
+        StringBuilder newItems = new StringBuilder();
+        for (String part : parts) {
+
+            if (!part.trim().equalsIgnoreCase(item.trim())) {
+                if (newItems.length() > 0) {
+                    newItems.append(", ");
+                }
+                newItems.append(part.trim());
+            }
+        }
+        items = newItems.toString();
+    }
+
+    public boolean hasItem(String itemName) {
+        if (items.isEmpty())
+            return false;
+
+        String[] parts = items.split(",");
+        for (String part : parts) {
+            if (part.trim().equalsIgnoreCase(itemName.trim()))
+                return true;
+        }
+        return this.items.equalsIgnoreCase(itemName);
     }
 
     /**
@@ -43,7 +94,7 @@ public class Character {
      * If damage exceeds Health, set Health to 0
      * 
      * @param damage
-     * @return the updated health after applying the damage
+     * @return updated health after applying damage
      */
     public int takeDamage(int damage) {
         int newHelath = this.health - damage;
@@ -52,10 +103,10 @@ public class Character {
     }
 
     /**
-     * Add XP by the set amount
+     * Add XP by set amount
      * 
      * @param xp
-     * @return theupdated XP after adding the gained xp
+     * @return updated XP after adding gained XP
      */
     public int addXP(int xp) {
         this.XP += xp;
