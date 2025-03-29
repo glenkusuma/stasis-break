@@ -51,6 +51,121 @@ public class SceneTest {
     }
 
     /**
+     * Test overloaded constructor with effect messages
+     * - Verify that effect messages are correctly set
+     */
+    @Test
+    public void testOverloadedConstructorWithEffectMessages() {
+        Scene sceneWithEffects = new Scene(
+                "Scene with Effects",
+                "Choice A", dummySceneA, 10, 5, "Effect A",
+                "Choice B", dummySceneB, 0, 10, "Effect B",
+                "Choice C", dummySceneC, 20, 0, "Effect C");
+
+        assertEquals("Effect A", sceneWithEffects.getEffectMessageA(), "Effect message for Choice A should be set correctly");
+        assertEquals("Effect B", sceneWithEffects.getEffectMessageB(), "Effect message for Choice B should be set correctly");
+        assertEquals("Effect C", sceneWithEffects.getEffectMessageC(), "Effect message for Choice C should be set correctly");
+    }
+
+    /**
+     * Test overloaded constructor with item rewards
+     * - Verify that item rewards are correctly set
+     */
+    @Test
+    public void testOverloadedConstructorWithItemRewards() {
+        Scene sceneWithItems = new Scene(
+                "Scene with Items",
+                "Choice A", dummySceneA, 10, 5, "Effect A", "Reward A", null,
+                "Choice B", dummySceneB, 0, 10, "Effect B", "Reward B", null,
+                "Choice C", dummySceneC, 20, 0, "Effect C", "Reward C", null);
+
+        assertEquals("Reward A", sceneWithItems.getItemRewardA(), "Item reward for Choice A should be set correctly");
+        assertEquals("Reward B", sceneWithItems.getItemRewardB(), "Item reward for Choice B should be set correctly");
+        assertEquals("Reward C", sceneWithItems.getItemRewardC(), "Item reward for Choice C should be set correctly");
+    }
+
+    /**
+     * Test overloaded constructor with destroyable items
+     * - Verify that destroyable items are correctly set
+     */
+    @Test
+    public void testOverloadedConstructorWithDestroyableItems() {
+        Scene sceneWithDestroyableItems = new Scene(
+                "Scene with Destroyable Items",
+                "Choice A", dummySceneA, 10, 5, "Effect A", "Reward A", "Destroy A",
+                "Choice B", dummySceneB, 0, 10, "Effect B", "Reward B", "Destroy B",
+                "Choice C", dummySceneC, 20, 0, "Effect C", "Reward C", "Destroy C");
+
+        assertEquals("Destroy A", sceneWithDestroyableItems.getItemDestroyA(), "Destroy item for Choice A should be set correctly");
+        assertEquals("Destroy B", sceneWithDestroyableItems.getItemDestroyB(), "Destroy item for Choice B should be set correctly");
+        assertEquals("Destroy C", sceneWithDestroyableItems.getItemDestroyC(), "Destroy item for Choice C should be set correctly");
+    }
+    /**
+     * Test getters & setters for effectMessageA, effectMessageB, effectMessageC
+     */
+    @Test
+    public void testEffectMessageGettersAndSetters() {
+        scene.setEffectMessageA("New Effect A");
+        assertEquals("New Effect A", scene.getEffectMessageA(), "EffectMessageA should be set & retrieved correctly");
+
+        scene.setEffectMessageB("New Effect B");
+        assertEquals("New Effect B", scene.getEffectMessageB(), "EffectMessageB should be set & retrieved correctly");
+
+        scene.setEffectMessageC("New Effect C");
+        assertEquals("New Effect C", scene.getEffectMessageC(), "EffectMessageC should be set & retrieved correctly");
+    }
+
+    /**
+     * Test getters & setters for itemRewardA, itemRewardB, itemRewardC
+     */
+    @Test
+    public void testItemRewardGettersAndSetters() {
+        scene.setItemRewardA("Reward A");
+        assertEquals("Reward A", scene.getItemRewardA(), "ItemRewardA should be set & retrieved correctly");
+
+        scene.setItemRewardB("Reward B");
+        assertEquals("Reward B", scene.getItemRewardB(), "ItemRewardB should be set & retrieved correctly");
+
+        scene.setItemRewardC("Reward C");
+        assertEquals("Reward C", scene.getItemRewardC(), "ItemRewardC should be set & retrieved correctly");
+    }
+
+    /**
+     * Test getters & setters for itemDestroyA, itemDestroyB, itemDestroyC
+     */
+    @Test
+    public void testItemDestroyGettersAndSetters() {
+        scene.setItemDestroyA("Destroy A");
+        assertEquals("Destroy A", scene.getItemDestroyA(), "ItemDestroyA should be set & retrieved correctly");
+
+        scene.setItemDestroyB("Destroy B");
+        assertEquals("Destroy B", scene.getItemDestroyB(), "ItemDestroyB should be set & retrieved correctly");
+
+        scene.setItemDestroyC("Destroy C");
+        assertEquals("Destroy C", scene.getItemDestroyC(), "ItemDestroyC should be set & retrieved correctly");
+    }
+
+
+    /**
+     * Test getters & setters for nextSceneA, nextSceneB, nextSceneC
+     */
+    @Test
+    public void testNextSceneGettersAndSetters() {
+        Scene newSceneA = new Scene("New Scene A", "", null, 0, 0, "", null, 0, 0, "", null, 0, 0);
+        Scene newSceneB = new Scene("New Scene B", "", null, 0, 0, "", null, 0, 0, "", null, 0, 0);
+        Scene newSceneC = new Scene("New Scene C", "", null, 0, 0, "", null, 0, 0, "", null, 0, 0);
+
+        scene.setNextSceneA(newSceneA);
+        assertEquals(newSceneA, scene.getNextSceneA(), "NextSceneA should be set & retrieved correctly");
+
+        scene.setNextSceneB(newSceneB);
+        assertEquals(newSceneB, scene.getNextSceneB(), "NextSceneB should be set & retrieved correctly");
+
+        scene.setNextSceneC(newSceneC);
+        assertEquals(newSceneC, scene.getNextSceneC(), "NextSceneC should be set & retrieved correctly");
+    }
+
+    /**
      * Test displayScene() method
      * - Verify that scene's description & choices are properly output
      */
@@ -200,13 +315,14 @@ public class SceneTest {
         assertEquals(10, result.getAppliedDamage(), "Applied damage should match the damage for choice A");
         assertEquals(initialXP, result.getOldXP(), "Old XP should match character's XP before applying XP gain");
         assertEquals(5, result.getAppliedXP(), "Applied XP should match the XP gain for choice A");
-        // Since effectMessage wasn't provided, expect an empty string.
-        assertEquals("", result.getEffectMessage(), "Effect message should be empty as provided");
+
+        assertNull(result.getEffectMessage(), "Effect message should be null as default");
     }
 
     /**
      * Test applyChoiceEffect() method for a valid input "B"
-     * Expected: returned ChoiceResult reflects correct applied damage & XP player's attributes are updated accordingly
+     * Expected: returned ChoiceResult reflects correct applied damage & XP player's
+     * attributes are updated accordingly
      */
     @Test
     public void testApplyChoiceEffectValid() {
@@ -224,7 +340,7 @@ public class SceneTest {
 
     /**
      * Test app lyChoiceEffect() method with an invalid input
-     * Expected: Returns null & player's attributes should  remain unchanged
+     * Expected: Returns null & player's attributes should remain unchanged
      */
     @Test
     public void testApplyChoiceEffectInvalid() {
@@ -239,7 +355,8 @@ public class SceneTest {
 
     /**
      * Test getNextScene() method
-     * Expected: Returns correct next scene for valid inputs & null for invalid input
+     * Expected: Returns correct next scene for valid inputs & null for invalid
+     * input
      */
     @Test
     public void testGetNextScene() {
@@ -322,7 +439,7 @@ public class SceneTest {
 
     /**
      * Test overloaded constructor defaults with effect messages to an empty string
-     * tet by simulate a valid choice ("A", "B", "C") 
+     * tet by simulate a valid choice ("A", "B", "C")
      * verify returnedChoiceResult has an empty effect message
      */
     @Test
@@ -343,15 +460,15 @@ public class SceneTest {
 
         ChoiceResult resultA = sceneOverloaded.applyChoiceEffect("A", testCharacter);
         assertNotNull(resultA, "ChoiceResult should not be null for valid input");
-        assertEquals("", resultA.getEffectMessage(), "Effect message for choice A should be empty by default");
+        assertNull(resultA.getEffectMessage(), "Effect message for choice A should be null by default");
 
         ChoiceResult resultB = sceneOverloaded.applyChoiceEffect("B", testCharacter);
         assertNotNull(resultB, "ChoiceResult should not be null for valid input");
-        assertEquals("", resultB.getEffectMessage(), "Effect message for choice B should be empty by default");
+        assertNull(resultB.getEffectMessage(), "Effect message for choice B should be null by default");
 
         ChoiceResult resultC = sceneOverloaded.applyChoiceEffect("C", testCharacter);
         assertNotNull(resultC, "ChoiceResult should not be null for valid input");
-        assertEquals("", resultC.getEffectMessage(), "Effect message for choice C should be empty by default");
+        assertNull(resultC.getEffectMessage(), "Effect message for choice C should be null by default");
     }
 
     /**

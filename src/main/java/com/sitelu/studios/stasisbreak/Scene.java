@@ -2,15 +2,19 @@ package com.sitelu.studios.stasisbreak;
 
 public class Scene {
     private String description;
+
     private String choiceA;
     private String choiceB;
     private String choiceC;
+
     private Scene nextSceneA;
     private Scene nextSceneB;
     private Scene nextSceneC;
+
     private int damageA;
     private int damageB;
     private int damageC;
+
     private int XPA;
     private int XPB;
     private int XPC;
@@ -18,6 +22,86 @@ public class Scene {
     private String effectMessageA;
     private String effectMessageB;
     private String effectMessageC;
+
+    private String itemRewardA;
+    private String itemRewardB;
+    private String itemRewardC;
+
+    private String itemDestroyA;
+    private String itemDestroyB;
+    private String itemDestroyC;
+
+    public String getEffectMessageA() {
+        return effectMessageA;
+    }
+
+    public void setEffectMessageA(String effectMessageA) {
+        this.effectMessageA = effectMessageA;
+    }
+
+    public String getEffectMessageB() {
+        return effectMessageB;
+    }
+
+    public void setEffectMessageB(String effectMessageB) {
+        this.effectMessageB = effectMessageB;
+    }
+
+    public String getEffectMessageC() {
+        return effectMessageC;
+    }
+
+    public void setEffectMessageC(String effectMessageC) {
+        this.effectMessageC = effectMessageC;
+    }
+
+    public String getItemRewardA() {
+        return itemRewardA;
+    }
+
+    public void setItemRewardA(String itemRewardA) {
+        this.itemRewardA = itemRewardA;
+    }
+
+    public String getItemRewardB() {
+        return itemRewardB;
+    }
+
+    public void setItemRewardB(String itemRewardB) {
+        this.itemRewardB = itemRewardB;
+    }
+
+    public String getItemRewardC() {
+        return itemRewardC;
+    }
+
+    public void setItemRewardC(String itemRewardC) {
+        this.itemRewardC = itemRewardC;
+    }
+
+    public String getItemDestroyA() {
+        return itemDestroyA;
+    }
+
+    public void setItemDestroyA(String itemDestroyA) {
+        this.itemDestroyA = itemDestroyA;
+    }
+
+    public String getItemDestroyB() {
+        return itemDestroyB;
+    }
+
+    public void setItemDestroyB(String itemDestroyB) {
+        this.itemDestroyB = itemDestroyB;
+    }
+
+    public String getItemDestroyC() {
+        return itemDestroyC;
+    }
+
+    public void setItemDestroyC(String itemDestroyC) {
+        this.itemDestroyC = itemDestroyC;
+    }
 
     private ChoiceResult lastChoiceResult;
 
@@ -45,12 +129,24 @@ public class Scene {
         return nextSceneA;
     }
 
+    public void setNextSceneA(Scene scene) {
+        this.nextSceneA = scene;
+    }
+
     public Scene getNextSceneB() {
         return nextSceneB;
     }
 
+    public void setNextSceneB(Scene scene) {
+        this.nextSceneB = scene;
+    }
+
     public Scene getNextSceneC() {
         return nextSceneC;
+    }
+
+    public void setNextSceneC(Scene scene) {
+        this.nextSceneC = scene;
     }
 
     public int getDamageA() {
@@ -79,25 +175,46 @@ public class Scene {
 
     public Scene(
             String description,
-            String choiceA, Scene nextSceneA, int damageA, int XPA, String effectMessageA,
-            String choiceB, Scene nextSceneB, int damageB, int XPB, String effectMessageB,
-            String choiceC, Scene nextSceneC, int damageC, int XPC, String effectMessageC) {
+            String choiceA, Scene nextSceneA, int damageA, int XPA, String effectMessageA, String itemRewardA,
+            String itemDestroyA,
+            String choiceB, Scene nextSceneB, int damageB, int XPB, String effectMessageB, String itemRewardB,
+            String itemDestroyB,
+            String choiceC, Scene nextSceneC, int damageC, int XPC, String effectMessageC, String itemRewardC,
+            String itemDestroyC) {
         this.description = description;
         this.choiceA = choiceA;
         this.nextSceneA = nextSceneA;
         this.damageA = damageA;
         this.XPA = XPA;
+        this.effectMessageA = effectMessageA;
+        this.itemRewardA = itemRewardA;
+        this.itemDestroyA = itemDestroyA;
         this.choiceB = choiceB;
         this.nextSceneB = nextSceneB;
         this.damageB = damageB;
         this.XPB = XPB;
+        this.effectMessageB = effectMessageB;
+        this.itemRewardB = itemRewardB;
+        this.itemDestroyB = itemDestroyB;
         this.choiceC = choiceC;
         this.nextSceneC = nextSceneC;
         this.damageC = damageC;
         this.XPC = XPC;
-        this.effectMessageA = effectMessageA;
-        this.effectMessageB = effectMessageB;
         this.effectMessageC = effectMessageC;
+        this.itemRewardC = itemRewardC;
+        this.itemDestroyC = itemDestroyC;
+    }
+
+    public Scene(
+            String description,
+            String choiceA, Scene nextSceneA, int damageA, int XPA, String effectMessageA,
+            String choiceB, Scene nextSceneB, int damageB, int XPB, String effectMessageB,
+            String choiceC, Scene nextSceneC, int damageC, int XPC, String effectMessageC) {
+        this(
+                description,
+                choiceA, nextSceneA, damageA, XPA, effectMessageA, null, null,
+                choiceB, nextSceneB, damageB, XPB, effectMessageB, null, null,
+                choiceC, nextSceneC, damageC, XPC, effectMessageC, null, null);
     }
 
     public Scene(
@@ -107,9 +224,9 @@ public class Scene {
             String choiceC, Scene nextSceneC, int damageC, int XPC) {
         this(
                 description,
-                choiceA, nextSceneA, damageA, XPA, "",
-                choiceB, nextSceneB, damageB, XPB, "",
-                choiceC, nextSceneC, damageC, XPC, "");
+                choiceA, nextSceneA, damageA, XPA, null, null, null,
+                choiceB, nextSceneB, damageB, XPB, null, null, null,
+                choiceC, nextSceneC, damageC, XPC, null, null, null);
     }
 
     public Scene(
@@ -120,9 +237,9 @@ public class Scene {
             int XPA, int XPB, int XPC) {
         this(
                 description,
-                choiceA, nextSceneA, damageA, XPA, "",
-                choiceB, nextSceneB, damageB, XPB, "",
-                choiceC, nextSceneC, damageC, XPC, "");
+                choiceA, nextSceneA, damageA, XPA, null, null, null,
+                choiceB, nextSceneB, damageB, XPB, null, null, null,
+                choiceC, nextSceneC, damageC, XPC, null, null, null);
     }
 
     public void displayScene() {
