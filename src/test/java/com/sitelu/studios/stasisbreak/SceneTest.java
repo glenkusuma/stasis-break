@@ -35,18 +35,18 @@ public class SceneTest {
     @Test
     public void testConstructor() {
         assertEquals("Test Scene Description", scene.getDescription(), "Description should be initialize as provided");
-        assertEquals("Choice A", scene.getChoiceA(), "ChoiceA should be initialize as provided");
-        assertEquals("Choice B", scene.getChoiceB(), "ChoiceB should be initialize as provided");
-        assertEquals("Choice C", scene.getChoiceC(), "ChoiceC should be initialize as provided");
-        assertEquals(dummySceneA, scene.getNextSceneA(), "NextSceneA should be initialize as provided");
-        assertEquals(dummySceneB, scene.getNextSceneB(), "NextSceneB should be initialize as provided");
-        assertEquals(dummySceneC, scene.getNextSceneC(), "NextSceneC should be initialize as provided");
-        assertEquals(10, scene.getDamageA(), "DamageA should be initialize as provided");
-        assertEquals(0, scene.getDamageB(), "DamageB should be initialize as provided");
-        assertEquals(20, scene.getDamageC(), "DamageC should be initialize as provided");
-        assertEquals(5, scene.getXPA(), "XPA should be initialize as provided");
-        assertEquals(10, scene.getXPB(), "XPA should be initialize as provided");
-        assertEquals(0, scene.getXPC(), "XPA should be initialize as provided");
+        assertEquals("Choice A", scene.getChoice("A", false), "ChoiceA should be initialize as provided");
+        assertEquals("Choice B", scene.getChoice("B", false), "ChoiceB should be initialize as provided");
+        assertEquals("Choice C", scene.getChoice("C", false), "ChoiceC should be initialize as provided");
+        assertEquals(dummySceneA, scene.getNextScene("A", false), "NextSceneA should be initialize as provided");
+        assertEquals(dummySceneB, scene.getNextScene("B", false), "NextSceneB should be initialize as provided");
+        assertEquals(dummySceneC, scene.getNextScene("C", false), "NextSceneC should be initialize as provided");
+        assertEquals(10, scene.getDamage("A", false), "DamageA should be initialize as provided");
+        assertEquals(0, scene.getDamage("B", false), "DamageB should be initialize as provided");
+        assertEquals(20, scene.getDamage("C", false), "DamageC should be initialize as provided");
+        assertEquals(5, scene.getXP("A", false), "XPA should be initialize as provided");
+        assertEquals(10, scene.getXP("B", false), "XPA should be initialize as provided");
+        assertEquals(0, scene.getXP("C", false), "XPA should be initialize as provided");
     }
 
     /**
@@ -61,11 +61,11 @@ public class SceneTest {
                 "Choice B", dummySceneB, 0, 10, "Effect B",
                 "Choice C", dummySceneC, 20, 0, "Effect C");
 
-        assertEquals("Effect A", sceneWithEffects.getEffectMessageA(),
+        assertEquals("Effect A", sceneWithEffects.getEffectMessage("A", false),
                 "Effect message for Choice A should be set correctly");
-        assertEquals("Effect B", sceneWithEffects.getEffectMessageB(),
+        assertEquals("Effect B", sceneWithEffects.getEffectMessage("B", false),
                 "Effect message for Choice B should be set correctly");
-        assertEquals("Effect C", sceneWithEffects.getEffectMessageC(),
+        assertEquals("Effect C", sceneWithEffects.getEffectMessage("C", false),
                 "Effect message for Choice C should be set correctly");
     }
 
@@ -81,9 +81,12 @@ public class SceneTest {
                 "Choice B", dummySceneB, 0, 10, "Effect B", "Reward B", null,
                 "Choice C", dummySceneC, 20, 0, "Effect C", "Reward C", null);
 
-        assertEquals("Reward A", sceneWithItems.getItemRewardA(), "Item reward for Choice A should be set correctly");
-        assertEquals("Reward B", sceneWithItems.getItemRewardB(), "Item reward for Choice B should be set correctly");
-        assertEquals("Reward C", sceneWithItems.getItemRewardC(), "Item reward for Choice C should be set correctly");
+        assertEquals("Reward A", sceneWithItems.getItemReward("A", false),
+                "Item reward for Choice A should be set correctly");
+        assertEquals("Reward B", sceneWithItems.getItemReward("B", false),
+                "Item reward for Choice B should be set correctly");
+        assertEquals("Reward C", sceneWithItems.getItemReward("C", false),
+                "Item reward for Choice C should be set correctly");
     }
 
     /**
@@ -98,11 +101,11 @@ public class SceneTest {
                 "Choice B", dummySceneB, 0, 10, "Effect B", "Reward B", "Destroy B",
                 "Choice C", dummySceneC, 20, 0, "Effect C", "Reward C", "Destroy C");
 
-        assertEquals("Destroy A", sceneWithDestroyableItems.getItemDestroyA(),
+        assertEquals("Destroy A", sceneWithDestroyableItems.getItemDestroy("A", false),
                 "Destroy item for Choice A should be set correctly");
-        assertEquals("Destroy B", sceneWithDestroyableItems.getItemDestroyB(),
+        assertEquals("Destroy B", sceneWithDestroyableItems.getItemDestroy("B", false),
                 "Destroy item for Choice B should be set correctly");
-        assertEquals("Destroy C", sceneWithDestroyableItems.getItemDestroyC(),
+        assertEquals("Destroy C", sceneWithDestroyableItems.getItemDestroy("C", false),
                 "Destroy item for Choice C should be set correctly");
     }
 
@@ -111,14 +114,17 @@ public class SceneTest {
      */
     @Test
     public void testEffectMessageGettersAndSetters() {
-        scene.setEffectMessageA("New Effect A");
-        assertEquals("New Effect A", scene.getEffectMessageA(), "EffectMessageA should be set & retrieved correctly");
+        scene.setEffectMessage("A", false, "New Effect A");
+        assertEquals("New Effect A", scene.getEffectMessage("A", false),
+                "EffectMessageA should be set & retrieved correctly");
 
-        scene.setEffectMessageB("New Effect B");
-        assertEquals("New Effect B", scene.getEffectMessageB(), "EffectMessageB should be set & retrieved correctly");
+        scene.setEffectMessage("B", false, "New Effect B");
+        assertEquals("New Effect B", scene.getEffectMessage("B", false),
+                "EffectMessageB should be set & retrieved correctly");
 
-        scene.setEffectMessageC("New Effect C");
-        assertEquals("New Effect C", scene.getEffectMessageC(), "EffectMessageC should be set & retrieved correctly");
+        scene.setEffectMessage("C", false, "New Effect C");
+        assertEquals("New Effect C", scene.getEffectMessage("C", false),
+                "EffectMessageC should be set & retrieved correctly");
     }
 
     /**
@@ -126,14 +132,14 @@ public class SceneTest {
      */
     @Test
     public void testItemRewardGettersAndSetters() {
-        scene.setItemRewardA("Reward A");
-        assertEquals("Reward A", scene.getItemRewardA(), "ItemRewardA should be set & retrieved correctly");
+        scene.setItemReward("A", false, "Reward A");
+        assertEquals("Reward A", scene.getItemReward("A", false), "ItemRewardA should be set & retrieved correctly");
 
-        scene.setItemRewardB("Reward B");
-        assertEquals("Reward B", scene.getItemRewardB(), "ItemRewardB should be set & retrieved correctly");
+        scene.setItemReward("B", false, "Reward B");
+        assertEquals("Reward B", scene.getItemReward("B", false), "ItemRewardB should be set & retrieved correctly");
 
-        scene.setItemRewardC("Reward C");
-        assertEquals("Reward C", scene.getItemRewardC(), "ItemRewardC should be set & retrieved correctly");
+        scene.setItemReward("C", false, "Reward C");
+        assertEquals("Reward C", scene.getItemReward("C", false), "ItemRewardC should be set & retrieved correctly");
     }
 
     /**
@@ -141,14 +147,14 @@ public class SceneTest {
      */
     @Test
     public void testItemDestroyGettersAndSetters() {
-        scene.setItemDestroyA("Destroy A");
-        assertEquals("Destroy A", scene.getItemDestroyA(), "ItemDestroyA should be set & retrieved correctly");
+        scene.setItemDestroy("A", false, "Destroy A");
+        assertEquals("Destroy A", scene.getItemDestroy("A", false), "ItemDestroyA should be set & retrieved correctly");
 
-        scene.setItemDestroyB("Destroy B");
-        assertEquals("Destroy B", scene.getItemDestroyB(), "ItemDestroyB should be set & retrieved correctly");
+        scene.setItemDestroy("B", false, "Destroy B");
+        assertEquals("Destroy B", scene.getItemDestroy("B", false), "ItemDestroyB should be set & retrieved correctly");
 
-        scene.setItemDestroyC("Destroy C");
-        assertEquals("Destroy C", scene.getItemDestroyC(), "ItemDestroyC should be set & retrieved correctly");
+        scene.setItemDestroy("C", false, "Destroy C");
+        assertEquals("Destroy C", scene.getItemDestroy("C", false), "ItemDestroyC should be set & retrieved correctly");
     }
 
     /**
@@ -160,14 +166,14 @@ public class SceneTest {
         Scene newSceneB = new Scene("New Scene B", "", null, 0, 0, "", null, 0, 0, "", null, 0, 0);
         Scene newSceneC = new Scene("New Scene C", "", null, 0, 0, "", null, 0, 0, "", null, 0, 0);
 
-        scene.setNextSceneA(newSceneA);
-        assertEquals(newSceneA, scene.getNextSceneA(), "NextSceneA should be set & retrieved correctly");
+        scene.setNextScene("A", false, newSceneA);
+        assertEquals(newSceneA, scene.getNextScene("A", false), "NextSceneA should be set & retrieved correctly");
 
-        scene.setNextSceneB(newSceneB);
-        assertEquals(newSceneB, scene.getNextSceneB(), "NextSceneB should be set & retrieved correctly");
+        scene.setNextScene("B", false, newSceneB);
+        assertEquals(newSceneB, scene.getNextScene("B", false), "NextSceneB should be set & retrieved correctly");
 
-        scene.setNextSceneC(newSceneC);
-        assertEquals(newSceneC, scene.getNextSceneC(), "NextSceneC should be set & retrieved correctly");
+        scene.setNextScene("C", false, newSceneC);
+        assertEquals(newSceneC, scene.getNextScene("C", false), "NextSceneC should be set & retrieved correctly");
     }
 
     /**
@@ -180,7 +186,7 @@ public class SceneTest {
         PrintStream originalOut = System.out;
         System.setOut(new PrintStream(outContent));
 
-        scene.displayScene();
+        scene.displayScene(true);
 
         System.setOut(originalOut);
 
@@ -510,7 +516,7 @@ public class SceneTest {
                 "Choice C", dummySceneC, 0, 0, "Effect C", "RewardItemC", "DestroyItemC");
 
         Character player = new Character("TestPlayer", 100);
-        player.addItem("DestroyItemA"); 
+        player.addItem("DestroyItemA");
 
         ChoiceResult result = sceneWithItems.applyChoiceEffect("A", player);
 
