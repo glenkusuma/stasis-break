@@ -92,7 +92,6 @@ public class CharacterTest {
         assertEquals("Sword, Potion", character.getItems(),
                 "After removal, items should not contain removed item");
 
-        // Removing an item not present should leave list unchanged.
         character.removeItem("Bow");
         assertEquals("Sword, Potion", character.getItems(),
                 "Removing a non-existent item should not alter items list");

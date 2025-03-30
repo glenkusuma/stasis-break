@@ -20,7 +20,6 @@ public class ChoiceResultTest {
         ChoiceResult result = new ChoiceResult(expectedOldHealth, expectedAppliedDamage, expectedOldXP,
                 expectedAppliedXP, expectedEffectMessage, expectedRewardItem, expectedDestroyItem);
 
-        // verify that the getter methods return the expected values
         assertEquals(expectedOldHealth, result.getOldHealth(),
                 "Old health should match the value passed to the constructor");
         assertEquals(expectedAppliedDamage, result.getAppliedDamage(),
@@ -46,7 +45,6 @@ public class ChoiceResultTest {
         ChoiceResult result = new ChoiceResult(expectedOldHealth, expectedAppliedDamage, expectedOldXP,
                 expectedAppliedXP, expectedEffectMessage);
 
-        // verify that the getter methods return the expected values
         assertEquals(expectedOldHealth, result.getOldHealth(),
                 "Old health should match the value passed to the constructor");
         assertEquals(expectedAppliedDamage, result.getAppliedDamage(),

@@ -31,6 +31,8 @@ public class Scene {
     private String itemDestroyB;
     private String itemDestroyC;
 
+    private ChoiceResult lastChoiceResult;
+
     public String getEffectMessageA() {
         return effectMessageA;
     }
@@ -102,8 +104,6 @@ public class Scene {
     public void setItemDestroyC(String itemDestroyC) {
         this.itemDestroyC = itemDestroyC;
     }
-
-    private ChoiceResult lastChoiceResult;
 
     public ChoiceResult getLastChoiceResult() {
         return lastChoiceResult;
@@ -250,11 +250,9 @@ public class Scene {
     }
 
     public Scene makeChoice(String choice, Character player) {
-
         if (choice == null || player == null) {
             return null;
         }
-
         // apply the choice effect and save the result
         ChoiceResult result = applyChoiceEffect(choice, player);
         if (result == null) {
@@ -273,22 +271,30 @@ public class Scene {
         int appliedDamage;
         int appliedXP;
         String effectMessage;
+        String itemReward = null;
+        String itemDestroy = null;
 
         switch (choice.toUpperCase()) {
             case "A":
                 appliedDamage = damageA;
                 appliedXP = XPA;
                 effectMessage = effectMessageA;
+                itemReward = itemRewardA;
+                itemDestroy = itemDestroyA;
                 break;
             case "B":
                 appliedDamage = damageB;
                 appliedXP = XPB;
                 effectMessage = effectMessageB;
+                itemReward = itemRewardB;
+                itemDestroy = itemDestroyB;
                 break;
             case "C":
                 appliedDamage = damageC;
                 appliedXP = XPC;
                 effectMessage = effectMessageC;
+                itemReward = itemRewardC;
+                itemDestroy = itemDestroyC;
                 break;
             default:
                 return null;
@@ -299,6 +305,16 @@ public class Scene {
 
         player.takeDamage(appliedDamage);
         player.addXP(appliedXP);
+
+        if (itemReward != null && !itemReward.isEmpty()) {
+            // System.out.println("You received an item: " + itemReward);
+            player.addItem(itemReward);
+        }
+
+        if (itemDestroy != null && !itemDestroy.isEmpty()) {
+            // System.out.println("An item was destroyed: " + itemDestroy);
+            player.removeItem(itemDestroy);
+        }
 
         return new ChoiceResult(oldHealth, appliedDamage, oldXP, appliedXP, effectMessage);
     }
