@@ -111,7 +111,7 @@ public class CharacterTest {
         assertFalse(character.hasItem("Potion"), "Character should not have Potion");
     }
 
-      /**
+    /**
      * Test setItems correctly sets items field
      */
     @Test
@@ -137,5 +137,44 @@ public class CharacterTest {
         character.setItems("");
         character.removeItem("Sword");
         assertEquals("", character.getItems(), "removeItem should not modify items when list is empty");
+    }
+
+    /**
+     * Test isCompanionAwake and setCompanionAwake methods
+     * Verify that companion's awake status can be set and retrieved correctly
+     */
+    @Test
+    public void testCompanionAwake() {
+        character.setCompanionAwake(true);
+        assertTrue(character.isCompanionAwake(), "Companion should be awake after setting to true");
+
+        character.setCompanionAwake(false);
+        assertFalse(character.isCompanionAwake(), "Companion should not be awake after setting to false");
+    }
+
+    /**
+     * Test isReactorStabilized and setReactorStabilized methods
+     * Verify that reactor's stabilized status can be set and retrieved correctly
+     */
+    @Test
+    public void testReactorStabilized() {
+        character.setReactorStabilized(true);
+        assertTrue(character.isReactorStabilized(), "Reactor should be stabilized after setting to true");
+
+        character.setReactorStabilized(false);
+        assertFalse(character.isReactorStabilized(), "Reactor should not be stabilized after setting to false");
+    }
+
+    /**
+     * Test isHasAccessCard and setHasAccessCard methods
+     * Verify that access card possession status can be set and retrieved correctly
+     */
+    @Test
+    public void testHasAccessCard() {
+        character.setHasAccessCard(true);
+        assertTrue(character.isHasAccessCard(), "Character should have access card after setting to true");
+
+        character.setHasAccessCard(false);
+        assertFalse(character.isHasAccessCard(), "Character should not have access card after setting to false");
     }
 }

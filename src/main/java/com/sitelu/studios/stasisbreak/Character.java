@@ -7,6 +7,11 @@ public class Character {
     private int health;
     private String items;
 
+    // ending
+    private boolean isCompanionAwake;
+    private boolean reactorStabilized;
+    private boolean hasAccessCard;
+
     /**
      * @param name
      * @param health
@@ -37,6 +42,33 @@ public class Character {
     public String getItems() {
         return items;
     }
+
+    // goal gettersetter
+
+    public boolean isCompanionAwake() {
+        return isCompanionAwake;
+    }
+
+    public void setCompanionAwake(boolean isCompanionAwake) {
+        this.isCompanionAwake = isCompanionAwake;
+    }
+
+    public boolean isReactorStabilized() {
+        return reactorStabilized;
+    }
+
+    public void setReactorStabilized(boolean reactorStabilized) {
+        this.reactorStabilized = reactorStabilized;
+    }
+
+    public boolean isHasAccessCard() {
+        return hasAccessCard;
+    }
+
+    public void setHasAccessCard(boolean hasAccessCard) {
+        this.hasAccessCard = hasAccessCard;
+    }
+
 
     /**
      * Adds an item to character items list
