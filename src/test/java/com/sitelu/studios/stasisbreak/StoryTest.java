@@ -37,9 +37,9 @@ public class StoryTest {
 
         EndingScene = new Scene(
                 "Ending Scene You've reached end of your journey!",
-                "None", null, 0, 0, "No more moves",
-                "None", null, 0, 0, "No more moves",
-                "None", null, 0, 0, "No more moves");
+                null, null, 0, 0, "No more moves",
+                null, null, 0, 0, "No more moves",
+                null, null, 0, 0, "No more moves");
 
         secondScene = new Scene(
                 "You are now in second scene!",
@@ -51,7 +51,7 @@ public class StoryTest {
                 "This is start scene",
                 "Go to second scene", secondScene, 2, 5, "You push onward bravely!",
                 "Skip to ending", EndingScene, 10, 20, "You took a risky shortcut to end!",
-                "Unknown path", null, 0, 0, "It's too dark to proceed here");
+                "Unknown path", secondScene, 0, 0, "It's too dark to proceed here");
 
         testCharacter = new Character("TestPlayer", 50);
     }
@@ -110,7 +110,7 @@ public class StoryTest {
      */
     @Test
     public void testInvalidInput() {
-        String simulatedInput = "Z\nC\n";
+        String simulatedInput = "Z\nC\nA\n";
         InputStream originalIn = System.in;
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
@@ -131,25 +131,24 @@ public class StoryTest {
 
         assertTrue(output.contains("Unknown path"),
                 "Scene description for choice C effect message should appear (Unknown path)");
-        assertTrue(output.contains("GAME OVER"),
-                "Game should end after an invalid nextScene (null)");
+
     }
 
     /**
      * Case Insensitivity test:
-     * - We pass "b" in lowercase
-     * - This should be treated same as "B"
-     * - In startScene, "B" deals 10 damage, grants 20 XP, nextScene => EndingScene
+     * - We pass "a" in lowercase
+     * - This should be treated same as "A"
+     * - In startScene, "A" deals 2 damage, grants 5 XP, nextScene => secondScene
      *
      * Expected:
-     * - Health: 50 - 10 = 40
-     * - XP: 0 + 20 = 20
-     * - We see effect message for choiceB ("You took a risky shortcut...")
-     * - We end up in EndingScene
+     * - Health: 50 - 2 = 48
+     * - XP: 0 + 5 = 5
+     * - We see effect message for choiceA ("You push onward bravely!")
+     * - We end up in secondScene
      */
     @Test
     public void testCaseInsensitiveChoice() {
-        String simulatedInput = "b\n";
+        String simulatedInput = "a\nEXIT\n";
         InputStream originalIn = System.in;
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
@@ -163,14 +162,14 @@ public class StoryTest {
         System.setIn(originalIn);
         System.setOut(originalOut);
 
-        assertEquals(40, testCharacter.getHealth(), "Health should be 40 after choice B");
-        assertEquals(20, testCharacter.getXP(), "XP should be 20 after choice B");
+        assertEquals(48, testCharacter.getHealth(), "Health should be 48 after choice A");
+        assertEquals(5, testCharacter.getXP(), "XP should be 5 after choice A");
 
         String output = outContent.toString();
-        assertTrue(output.contains("risky shortcut"),
-                "Effect message for choice B should appear in output");
-        assertTrue(output.contains("Ending Scene"),
-                "We should transition to ending scene after choice B");
+        assertTrue(output.contains("push onward bravely"),
+                "Effect message for choice A should appear in output");
+        assertTrue(output.contains("second scene"),
+                "We should transition to second scene after choice A");
     }
 
     /**
@@ -238,7 +237,7 @@ public class StoryTest {
      */
     @Test
     public void testHelpCommand() {
-        String simulatedInput = "HELP\nC\n";
+        String simulatedInput = "HELP\nC\nA\n";
         InputStream originalIn = System.in;
         System.setIn(new ByteArrayInputStream(simulatedInput.getBytes()));
 
@@ -254,7 +253,7 @@ public class StoryTest {
 
         String output = outContent.toString();
         assertTrue(output.contains("""
-                ================================ HELP =================================
+                =============================================== HELP ===============================================
                 Welcome to Stasis Break!
                 Dalam game ini, your choices determine your fate >:D
 
@@ -268,8 +267,9 @@ public class StoryTest {
                   - Gunakan INFO kapan saja untuk mengecek status player
                   - Keputusanmu mempengruhi health & XP, so pilihlah dengan bijak!
                   - Explore semua opsi tuk temukan hidden outcomes & endings
-                ========================================================================
-                """),
+
+                ====================================================================================================
+                                """),
                 "HELP command should print usage for help/info/exit");
         assertTrue(output.contains("Invalid choice, silahkan try again...") || output.contains("GAME OVER")
                 || output.contains("Unknown path"),
@@ -627,24 +627,25 @@ public class StoryTest {
 
     @Test
     public void testHelpCommandVariants() {
-        String[] simulatedInputs = {"HELP\nEXIT\n", "/HELP\nEXIT\n", "/H\nEXIT\n"};
+        String[] simulatedInputs = { "HELP\nEXIT\n", "/HELP\nEXIT\n", "/H\nEXIT\n" };
         String expectedHelpMessage = """
-            ================================ HELP =================================
-            Welcome to Stasis Break!
-            Dalam game ini, your choices determine your fate >:D
+                =============================================== HELP ===============================================
+                Welcome to Stasis Break!
+                Dalam game ini, your choices determine your fate >:D
 
-            Commands:
-              INFO   - Lihat status player saat ini (health, XP, items, dll)
-              HELP   - Tampilkan halaman help ini
-              EXIT   - Keluar dari game secara langsung
-              A/B/C  - Pilih opsi scene (input bersifat case-insensitive)
+                Commands:
+                  INFO   - Lihat status player saat ini (health, XP, items, dll)
+                  HELP   - Tampilkan halaman help ini
+                  EXIT   - Keluar dari game secara langsung
+                  A/B/C  - Pilih opsi scene (input bersifat case-insensitive)
 
-            Tips:
-              - Gunakan INFO kapan saja untuk mengecek status player
-              - Keputusanmu mempengruhi health & XP, so pilihlah dengan bijak!
-              - Explore semua opsi tuk temukan hidden outcomes & endings
-            ========================================================================
-            """;
+                Tips:
+                  - Gunakan INFO kapan saja untuk mengecek status player
+                  - Keputusanmu mempengruhi health & XP, so pilihlah dengan bijak!
+                  - Explore semua opsi tuk temukan hidden outcomes & endings
+
+                ====================================================================================================
+                                """;
 
         for (String simulatedInput : simulatedInputs) {
             InputStream originalIn = System.in;

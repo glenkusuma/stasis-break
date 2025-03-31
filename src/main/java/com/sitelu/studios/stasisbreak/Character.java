@@ -1,5 +1,8 @@
 package com.sitelu.studios.stasisbreak;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Character {
 
     private String name;
@@ -11,6 +14,8 @@ public class Character {
     private boolean isCompanionAwake;
     private boolean reactorStabilized;
     private boolean hasAccessCard;
+
+    private Map<String, Boolean> flags = new HashMap<>();
 
     /**
      * @param name
@@ -68,7 +73,6 @@ public class Character {
     public void setHasAccessCard(boolean hasAccessCard) {
         this.hasAccessCard = hasAccessCard;
     }
-
 
     /**
      * Adds an item to character items list
@@ -143,6 +147,14 @@ public class Character {
     public int addXP(int xp) {
         this.XP += xp;
         return this.XP;
+    }
+
+    public Map<String, Boolean> getFlags() {
+        return flags;
+    }
+
+    public void setFlag(String key, boolean value) {
+        flags.put(key, value);
     }
 
 }

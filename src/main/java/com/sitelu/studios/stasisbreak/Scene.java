@@ -41,6 +41,23 @@ public class Scene {
 
     private ChoiceResult lastChoiceResult = null;
 
+    private int requiredHealthA = 0, requiredHealthB = 0, requiredHealthC = 0, requiredHealthD = 0, requiredHealthE = 0;
+    private int requiredXPA = 0, requiredXPB = 0, requiredXPC = 0, requiredXPD = 0, requiredXPE = 0;
+    private String requiredToolA = null, requiredToolB = null, requiredToolC = null, requiredToolD = null,
+            requiredToolE = null;
+    private Map<String, Boolean> requiredFlagConditionA = new HashMap<>(), requiredFlagConditionB = new HashMap<>(),
+            requiredFlagConditionC = new HashMap<>(), requiredFlagConditionD = new HashMap<>(),
+            requiredFlagConditionE = new HashMap<>();
+    private String requiredMessageA = null, requiredMessageB = null, requiredMessageC = null, requiredMessageD = null,
+            requiredMessageE = null;
+    private Map<String, Boolean> setFlagConditionA = new HashMap<>(), setFlagConditionB = new HashMap<>(),
+            setFlagConditionC = new HashMap<>(), setFlagConditionD = new HashMap<>(),
+            setFlagConditionE = new HashMap<>();
+
+    private boolean isLastChoiceBlocked = false;
+
+    RequiredChoiceEffect requiredEffect = null;
+
     public Scene(String title, String description, String type) {
         this.title = title;
         this.description = description;
@@ -116,6 +133,14 @@ public class Scene {
                 choiceC, nextSceneC, damageC, XPC, null, null, null);
     }
 
+    public boolean isLastChoiceBlocked() {
+        return isLastChoiceBlocked;
+    }
+
+    public void setLastChoiceBlocked(boolean isLastChoiceBlocked) {
+        this.isLastChoiceBlocked = isLastChoiceBlocked;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -172,6 +197,14 @@ public class Scene {
         this.isSceneUsed = isSceneUsed;
     }
 
+    public RequiredChoiceEffect getRequiredEffect() {
+        return requiredEffect;
+    }
+
+    public void setRequiredEffect(RequiredChoiceEffect requiredEffect) {
+        this.requiredEffect = requiredEffect;
+    }
+
     /**
      * Updates the scene's title, description, and type
      * based on whether the scene is marked as used.
@@ -196,18 +229,26 @@ public class Scene {
     /**
      * Sets all parameters for a specific choice key
      *
-     * @param choiceKey   choice key ("A", "B", "C", "D", "E")
-     * @param isUsed      whether this is "used" state
-     * @param choice      choice description
-     * @param nextScene   next scene for this choice
-     * @param damage      damage value for this choice
-     * @param XP          XP value for this choice
-     * @param effect      effect message for this choice
-     * @param itemReward  item reward for this choice
-     * @param itemDestroy item to be destroyed for this choice
+     * @param choiceKey             choice key ("A", "B", "C", "D", "E")
+     * @param isUsed                whether this is "used" state
+     * @param choice                choice description
+     * @param nextScene             next scene for this choice
+     * @param damage                damage value for this choice
+     * @param XP                    XP value for this choice
+     * @param effect                effect message for this choice
+     * @param itemReward            item reward for this choice
+     * @param itemDestroy           item to be destroyed for this choice
+     * @param requiredHealth        required health for this choice
+     * @param requiredXP            required XP for this choice
+     * @param requiredTool          required tool for this choice
+     * @param requiredFlagCondition required flag conditions for this choice
+     * @param requiredMessage       required message for this choice
+     * @param setFlagCondition      flags to be set for this choice
      */
     public void setChoices(String choiceKey, boolean isUsed, String choice, Scene nextScene, int damage, int XP,
-            String effect, String itemReward, String itemDestroy) {
+            String effect, String itemReward, String itemDestroy, int requiredHealth, int requiredXP,
+            String requiredTool,
+            Map<String, Boolean> requiredFlagCondition, String requiredMessage, Map<String, Boolean> setFlagCondition) {
         switch (choiceKey.toUpperCase()) {
             case "A":
                 if (isUsed) {
@@ -226,6 +267,12 @@ public class Scene {
                     this.effectMessageA = effect;
                     this.itemRewardA = itemReward;
                     this.itemDestroyA = itemDestroy;
+                    this.requiredHealthA = requiredHealth;
+                    this.requiredXPA = requiredXP;
+                    this.requiredToolA = requiredTool;
+                    this.requiredFlagConditionA = requiredFlagCondition;
+                    this.requiredMessageA = requiredMessage;
+                    this.setFlagConditionA = setFlagCondition;
                 }
                 break;
             case "B":
@@ -245,6 +292,12 @@ public class Scene {
                     this.effectMessageB = effect;
                     this.itemRewardB = itemReward;
                     this.itemDestroyB = itemDestroy;
+                    this.requiredHealthB = requiredHealth;
+                    this.requiredXPB = requiredXP;
+                    this.requiredToolB = requiredTool;
+                    this.requiredFlagConditionB = requiredFlagCondition;
+                    this.requiredMessageB = requiredMessage;
+                    this.setFlagConditionB = setFlagCondition;
                 }
                 break;
             case "C":
@@ -264,6 +317,12 @@ public class Scene {
                     this.effectMessageC = effect;
                     this.itemRewardC = itemReward;
                     this.itemDestroyC = itemDestroy;
+                    this.requiredHealthC = requiredHealth;
+                    this.requiredXPC = requiredXP;
+                    this.requiredToolC = requiredTool;
+                    this.requiredFlagConditionC = requiredFlagCondition;
+                    this.requiredMessageC = requiredMessage;
+                    this.setFlagConditionC = setFlagCondition;
                 }
                 break;
             case "D":
@@ -283,6 +342,12 @@ public class Scene {
                     this.effectMessageD = effect;
                     this.itemRewardD = itemReward;
                     this.itemDestroyD = itemDestroy;
+                    this.requiredHealthD = requiredHealth;
+                    this.requiredXPD = requiredXP;
+                    this.requiredToolD = requiredTool;
+                    this.requiredFlagConditionD = requiredFlagCondition;
+                    this.requiredMessageD = requiredMessage;
+                    this.setFlagConditionD = setFlagCondition;
                 }
                 break;
             case "E":
@@ -302,6 +367,12 @@ public class Scene {
                     this.effectMessageE = effect;
                     this.itemRewardE = itemReward;
                     this.itemDestroyE = itemDestroy;
+                    this.requiredHealthE = requiredHealth;
+                    this.requiredXPE = requiredXP;
+                    this.requiredToolE = requiredTool;
+                    this.requiredFlagConditionE = requiredFlagCondition;
+                    this.requiredMessageE = requiredMessage;
+                    this.setFlagConditionE = setFlagCondition;
                 }
                 break;
             default:
@@ -336,6 +407,12 @@ public class Scene {
                     choiceMap.put("effect", effectMessageA);
                     choiceMap.put("itemReward", itemRewardA);
                     choiceMap.put("itemDestroy", itemDestroyA);
+                    choiceMap.put("requiredHealth", requiredHealthA);
+                    choiceMap.put("requiredXP", requiredXPA);
+                    choiceMap.put("requiredTool", requiredToolA);
+                    choiceMap.put("requiredFlagCondition", requiredFlagConditionA);
+                    choiceMap.put("requiredMessage", requiredMessageA);
+                    choiceMap.put("setFlagCondition", setFlagConditionA);
                 }
                 break;
             case "B":
@@ -355,6 +432,12 @@ public class Scene {
                     choiceMap.put("effect", effectMessageB);
                     choiceMap.put("itemReward", itemRewardB);
                     choiceMap.put("itemDestroy", itemDestroyB);
+                    choiceMap.put("requiredHealth", requiredHealthB);
+                    choiceMap.put("requiredXP", requiredXPB);
+                    choiceMap.put("requiredTool", requiredToolB);
+                    choiceMap.put("requiredFlagCondition", requiredFlagConditionB);
+                    choiceMap.put("requiredMessage", requiredMessageB);
+                    choiceMap.put("setFlagCondition", setFlagConditionB);
                 }
                 break;
             case "C":
@@ -374,6 +457,12 @@ public class Scene {
                     choiceMap.put("effect", effectMessageC);
                     choiceMap.put("itemReward", itemRewardC);
                     choiceMap.put("itemDestroy", itemDestroyC);
+                    choiceMap.put("requiredHealth", requiredHealthC);
+                    choiceMap.put("requiredXP", requiredXPC);
+                    choiceMap.put("requiredTool", requiredToolC);
+                    choiceMap.put("requiredFlagCondition", requiredFlagConditionC);
+                    choiceMap.put("requiredMessage", requiredMessageC);
+                    choiceMap.put("setFlagCondition", setFlagConditionC);
                 }
                 break;
             case "D":
@@ -393,6 +482,12 @@ public class Scene {
                     choiceMap.put("effect", effectMessageD);
                     choiceMap.put("itemReward", itemRewardD);
                     choiceMap.put("itemDestroy", itemDestroyD);
+                    choiceMap.put("requiredHealth", requiredHealthD);
+                    choiceMap.put("requiredXP", requiredXPD);
+                    choiceMap.put("requiredTool", requiredToolD);
+                    choiceMap.put("requiredFlagCondition", requiredFlagConditionD);
+                    choiceMap.put("requiredMessage", requiredMessageD);
+                    choiceMap.put("setFlagCondition", setFlagConditionD);
                 }
                 break;
             case "E":
@@ -412,12 +507,252 @@ public class Scene {
                     choiceMap.put("effect", effectMessageE);
                     choiceMap.put("itemReward", itemRewardE);
                     choiceMap.put("itemDestroy", itemDestroyE);
+                    choiceMap.put("requiredHealth", requiredHealthE);
+                    choiceMap.put("requiredXP", requiredXPE);
+                    choiceMap.put("requiredTool", requiredToolE);
+                    choiceMap.put("requiredFlagCondition", requiredFlagConditionE);
+                    choiceMap.put("requiredMessage", requiredMessageE);
+                    choiceMap.put("setFlagCondition", setFlagConditionE);
                 }
                 break;
             default:
                 throw new IllegalArgumentException("Invalid choice key: " + choiceKey);
         }
         return choiceMap;
+    }
+
+    public int getRequiredHealth(String choiceKey) {
+        switch (choiceKey.toUpperCase()) {
+            case "A":
+                return requiredHealthA;
+            case "B":
+                return requiredHealthB;
+            case "C":
+                return requiredHealthC;
+            case "D":
+                return requiredHealthD;
+            case "E":
+                return requiredHealthE;
+            default:
+                throw new IllegalArgumentException("Invalid choice key: " + choiceKey);
+        }
+    }
+
+    public void setRequiredHealth(String choiceKey, int value) {
+        switch (choiceKey.toUpperCase()) {
+            case "A":
+                requiredHealthA = value;
+                break;
+            case "B":
+                requiredHealthB = value;
+                break;
+            case "C":
+                requiredHealthC = value;
+                break;
+            case "D":
+                requiredHealthD = value;
+                break;
+            case "E":
+                requiredHealthE = value;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid choice key: " + choiceKey);
+        }
+    }
+
+    public int getRequiredXP(String choiceKey) {
+        switch (choiceKey.toUpperCase()) {
+            case "A":
+                return requiredXPA;
+            case "B":
+                return requiredXPB;
+            case "C":
+                return requiredXPC;
+            case "D":
+                return requiredXPD;
+            case "E":
+                return requiredXPE;
+            default:
+                throw new IllegalArgumentException("Invalid choice key: " + choiceKey);
+        }
+    }
+
+    public void setRequiredXP(String choiceKey, int value) {
+        switch (choiceKey.toUpperCase()) {
+            case "A":
+                requiredXPA = value;
+                break;
+            case "B":
+                requiredXPB = value;
+                break;
+            case "C":
+                requiredXPC = value;
+                break;
+            case "D":
+                requiredXPD = value;
+                break;
+            case "E":
+                requiredXPE = value;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid choice key: " + choiceKey);
+        }
+    }
+
+    public String getRequiredTool(String choiceKey) {
+        switch (choiceKey.toUpperCase()) {
+            case "A":
+                return requiredToolA;
+            case "B":
+                return requiredToolB;
+            case "C":
+                return requiredToolC;
+            case "D":
+                return requiredToolD;
+            case "E":
+                return requiredToolE;
+            default:
+                throw new IllegalArgumentException("Invalid choice key: " + choiceKey);
+        }
+    }
+
+    public void setRequiredTool(String choiceKey, String value) {
+        switch (choiceKey.toUpperCase()) {
+            case "A":
+                requiredToolA = value;
+                break;
+            case "B":
+                requiredToolB = value;
+                break;
+            case "C":
+                requiredToolC = value;
+                break;
+            case "D":
+                requiredToolD = value;
+                break;
+            case "E":
+                requiredToolE = value;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid choice key: " + choiceKey);
+        }
+    }
+
+    public Map<String, Boolean> getRequiredFlagCondition(String choiceKey) {
+        switch (choiceKey.toUpperCase()) {
+            case "A":
+                return requiredFlagConditionA;
+            case "B":
+                return requiredFlagConditionB;
+            case "C":
+                return requiredFlagConditionC;
+            case "D":
+                return requiredFlagConditionD;
+            case "E":
+                return requiredFlagConditionE;
+            default:
+                throw new IllegalArgumentException("Invalid choice key: " + choiceKey);
+        }
+    }
+
+    public void setRequiredFlagCondition(String choiceKey, Map<String, Boolean> value) {
+        switch (choiceKey.toUpperCase()) {
+            case "A":
+                requiredFlagConditionA = value;
+                break;
+            case "B":
+                requiredFlagConditionB = value;
+                break;
+            case "C":
+                requiredFlagConditionC = value;
+                break;
+            case "D":
+                requiredFlagConditionD = value;
+                break;
+            case "E":
+                requiredFlagConditionE = value;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid choice key: " + choiceKey);
+        }
+    }
+
+    public String getRequiredMessage(String choiceKey) {
+        switch (choiceKey.toUpperCase()) {
+            case "A":
+                return requiredMessageA;
+            case "B":
+                return requiredMessageB;
+            case "C":
+                return requiredMessageC;
+            case "D":
+                return requiredMessageD;
+            case "E":
+                return requiredMessageE;
+            default:
+                throw new IllegalArgumentException("Invalid choice key: " + choiceKey);
+        }
+    }
+
+    public void setRequiredMessage(String choiceKey, String value) {
+        switch (choiceKey.toUpperCase()) {
+            case "A":
+                requiredMessageA = value;
+                break;
+            case "B":
+                requiredMessageB = value;
+                break;
+            case "C":
+                requiredMessageC = value;
+                break;
+            case "D":
+                requiredMessageD = value;
+                break;
+            case "E":
+                requiredMessageE = value;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid choice key: " + choiceKey);
+        }
+    }
+
+    public Map<String, Boolean> getSetFlagCondition(String choiceKey) {
+        switch (choiceKey.toUpperCase()) {
+            case "A":
+                return setFlagConditionA;
+            case "B":
+                return setFlagConditionB;
+            case "C":
+                return setFlagConditionC;
+            case "D":
+                return setFlagConditionD;
+            case "E":
+                return setFlagConditionE;
+            default:
+                throw new IllegalArgumentException("Invalid choice key: " + choiceKey);
+        }
+    }
+
+    public void setSetFlagCondition(String choiceKey, Map<String, Boolean> value) {
+        switch (choiceKey.toUpperCase()) {
+            case "A":
+                setFlagConditionA = value;
+                break;
+            case "B":
+                setFlagConditionB = value;
+                break;
+            case "C":
+                setFlagConditionC = value;
+                break;
+            case "D":
+                setFlagConditionD = value;
+                break;
+            case "E":
+                setFlagConditionE = value;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid choice key: " + choiceKey);
+        }
     }
 
     public String getChoice(String choiceKey, boolean isUsed) {
@@ -858,60 +1193,86 @@ public class Scene {
         return lastChoiceResult;
     }
 
+    /**
+     * Displays the title of the scene.
+     */
+    public void displayTitle() {
+        if (isSceneUsed) {
+            if (titleUsed != null) {
+                PrintUtils.printBreak(100, '=', titleUsed);
+            } else {
+                System.out.println("No title available for used scene.");
+            }
+        } else {
+            if (title != null) {
+                PrintUtils.printBreak(100, '=', title);
+            } else {
+                System.out.println("No title available.");
+            }
+        }
+    }
+
     public void displayScene(boolean isDescription) {
-        if (isDescription)
-            System.out.println(this.description + "\n");
+        int lineLength = 100; // Maximum characters per line for formatting
 
-        System.out.println("\n==================================================================\n");
-        String choiceA = getChoice("A", false);
-        String choiceAUsed = getChoice("A", true);
-        if (choiceA != null || choiceAUsed != null) {
-            if (isChoiceUsed("A")) {
-                System.out.println("1: " + choiceAUsed);
+        if (isDescription) {
+            if (isSceneUsed && this.descriptionUsed != null) {
+                PrintUtils.printFormatted(this.descriptionUsed, lineLength);
             } else {
-                System.out.println("1: " + choiceA);
+                PrintUtils.printFormatted(this.description, lineLength);
             }
         }
 
-        String choiceB = getChoice("B", false);
-        String choiceBUsed = getChoice("B", true);
-        if (choiceB != null || choiceBUsed != null) {
-            if (isChoiceUsed("B")) {
-                System.out.println("2: " + choiceBUsed);
+        this.displayTitle();
+
+        String choice;
+        final String choiceA = getChoice("A", false);
+        final String choiceAUsed = getChoice("A", true);
+        if (choiceA != null) {
+            if (choiceAUsed != null) {
+                choice = isChoiceUsed("A") ? choiceAUsed : choiceA;
             } else {
-                System.out.println("2: " + choiceB);
+                choice = choiceA;
             }
+            PrintUtils.printFormatted(choice, lineLength, "1: ");
         }
 
-        String choiceC = getChoice("C", false);
-        String choiceCUsed = getChoice("C", true);
-        if (choiceC != null || choiceCUsed != null) {
-            if (isChoiceUsed("C")) {
-                System.out.println("3: " + choiceCUsed);
+        if (choiceB != null) {
+            if (choiceBUsed != null) {
+                choice = isChoiceUsed("B") ? choiceBUsed : choiceB;
             } else {
-                System.out.println("3: " + choiceC);
+                choice = choiceB;
             }
+            PrintUtils.printFormatted(choice, lineLength, "2: ");
         }
 
-        String choiceD = getChoice("D", false);
-        String choiceDUsed = getChoice("D", true);
-        if (choiceD != null || choiceDUsed != null) {
-            if (isChoiceUsed("D")) {
-                System.out.println("4: " + choiceDUsed);
+        if (choiceC != null) {
+            if (choiceCUsed != null) {
+                choice = isChoiceUsed("C") ? choiceCUsed : choiceC;
             } else {
-                System.out.println("4: " + choiceD);
+                choice = choiceC;
             }
+            PrintUtils.printFormatted(choice, lineLength, "3: ");
         }
 
-        String choiceE = getChoice("E", false);
-        String choiceEUsed = getChoice("E", true);
-        if (choiceE != null || choiceEUsed != null) {
-            if (isChoiceUsed("E")) {
-                System.out.println("5: " + choiceEUsed);
+        if (choiceD != null) {
+            if (choiceDUsed != null) {
+                choice = isChoiceUsed("D") ? choiceDUsed : choiceD;
             } else {
-                System.out.println("5: " + choiceE);
+                choice = choiceD;
             }
+            PrintUtils.printFormatted(choice, lineLength, "4: ");
         }
+
+        if (choiceE != null) {
+            if (choiceEUsed != null) {
+                choice = isChoiceUsed("E") ? choiceEUsed : choiceE;
+            } else {
+                choice = choiceE;
+            }
+            PrintUtils.printFormatted(choice, lineLength, "5: ");
+        }
+
     }
 
     /**
@@ -927,6 +1288,18 @@ public class Scene {
         if (choice == null || player == null) {
             return null;
         }
+        // Check if the input choice is valid
+        if (!choice.matches("[A-Ea-e]")) {
+            System.out.println("Invalid choice. Please select a valid option (A, B, C, D, or E).");
+            return null;
+        }
+        this.isLastChoiceBlocked = false;
+
+        // Validasi requirment
+        if (!canMakeChoice(choice, player)) {
+            this.isLastChoiceBlocked = true;
+            return this;
+        }
 
         Scene nextScene = getNextScene(choice);
         // apply the choice effect and save the result
@@ -936,10 +1309,58 @@ public class Scene {
         }
         this.lastChoiceResult = result;
 
+        if (this.getSetFlagCondition(choice) != null) {
+            for (Map.Entry<String, Boolean> entry : this.getSetFlagCondition(choice).entrySet()) {
+                player.setFlag(entry.getKey(), entry.getValue());
+            }
+        }
+
         if (!isChoiceUsed(choice))
             setChoiceUsed(choice, true);
 
         return nextScene;
+    }
+
+    public RequiredChoiceEffect getRequiredChoiceEffect(String choiceKey) {
+        switch (choiceKey.toUpperCase()) {
+            case "A":
+                return new RequiredChoiceEffect(
+                        requiredHealthA,
+                        requiredXPA,
+                        requiredToolA,
+                        requiredFlagConditionA,
+                        requiredMessageA);
+            case "B":
+                return new RequiredChoiceEffect(
+                        requiredHealthB,
+                        requiredXPB,
+                        requiredToolB,
+                        requiredFlagConditionB,
+                        requiredMessageB);
+            case "C":
+                return new RequiredChoiceEffect(
+                        requiredHealthC,
+                        requiredXPC,
+                        requiredToolC,
+                        requiredFlagConditionC,
+                        requiredMessageC);
+            case "D":
+                return new RequiredChoiceEffect(
+                        requiredHealthD,
+                        requiredXPD,
+                        requiredToolD,
+                        requiredFlagConditionD,
+                        requiredMessageD);
+            case "E":
+                return new RequiredChoiceEffect(
+                        requiredHealthE,
+                        requiredXPE,
+                        requiredToolE,
+                        requiredFlagConditionE,
+                        requiredMessageE);
+            default:
+                throw new IllegalArgumentException("Invalid choice key: " + choiceKey);
+        }
     }
 
     public ChoiceResult applyChoiceEffect(String choice, Character player) {
@@ -953,6 +1374,13 @@ public class Scene {
         String itemReward = null;
         String itemDestroy = null;
 
+        int requiredHealth = 0;
+        int requiredXP = 0;
+        String requiredTool = null;
+        Map<String, Boolean> requiredFlagCondition = new HashMap<>();
+        String requiredMessage = null;
+        Map<String, Boolean> setFlagCondition = new HashMap<>();
+
         switch (choice.toUpperCase()) {
             case "A":
                 appliedDamage = isChoiceAUsed ? damageAUsed : damageA;
@@ -960,6 +1388,12 @@ public class Scene {
                 effectMessage = isChoiceAUsed ? effectMessageAUsed : effectMessageA;
                 itemReward = isChoiceAUsed ? itemRewardAUsed : itemRewardA;
                 itemDestroy = isChoiceAUsed ? itemDestroyAUsed : itemDestroyA;
+                requiredHealth = requiredHealthA;
+                requiredXP = requiredXPA;
+                requiredTool = requiredToolA;
+                requiredFlagCondition = requiredFlagConditionA;
+                requiredMessage = requiredMessageA;
+                setFlagCondition = setFlagConditionA;
                 break;
             case "B":
                 appliedDamage = isChoiceBUsed ? damageBUsed : damageB;
@@ -967,6 +1401,12 @@ public class Scene {
                 effectMessage = isChoiceBUsed ? effectMessageBUsed : effectMessageB;
                 itemReward = isChoiceBUsed ? itemRewardBUsed : itemRewardB;
                 itemDestroy = isChoiceBUsed ? itemDestroyBUsed : itemDestroyB;
+                requiredHealth = requiredHealthB;
+                requiredXP = requiredXPB;
+                requiredTool = requiredToolB;
+                requiredFlagCondition = requiredFlagConditionB;
+                requiredMessage = requiredMessageB;
+                setFlagCondition = setFlagConditionB;
                 break;
             case "C":
                 appliedDamage = isChoiceCUsed ? damageCUsed : damageC;
@@ -974,6 +1414,12 @@ public class Scene {
                 effectMessage = isChoiceCUsed ? effectMessageCUsed : effectMessageC;
                 itemReward = isChoiceCUsed ? itemRewardCUsed : itemRewardC;
                 itemDestroy = isChoiceCUsed ? itemDestroyCUsed : itemDestroyC;
+                requiredHealth = requiredHealthC;
+                requiredXP = requiredXPC;
+                requiredTool = requiredToolC;
+                requiredFlagCondition = requiredFlagConditionC;
+                requiredMessage = requiredMessageC;
+                setFlagCondition = setFlagConditionC;
                 break;
             case "D":
                 appliedDamage = isChoiceDUsed ? damageDUsed : damageD;
@@ -981,6 +1427,12 @@ public class Scene {
                 effectMessage = isChoiceDUsed ? effectMessageDUsed : effectMessageD;
                 itemReward = isChoiceDUsed ? itemRewardDUsed : itemRewardD;
                 itemDestroy = isChoiceDUsed ? itemDestroyDUsed : itemDestroyD;
+                requiredHealth = requiredHealthD;
+                requiredXP = requiredXPD;
+                requiredTool = requiredToolD;
+                requiredFlagCondition = requiredFlagConditionD;
+                requiredMessage = requiredMessageD;
+                setFlagCondition = setFlagConditionD;
                 break;
             case "E":
                 appliedDamage = isChoiceEUsed ? damageEUsed : damageE;
@@ -988,6 +1440,12 @@ public class Scene {
                 effectMessage = isChoiceEUsed ? effectMessageEUsed : effectMessageE;
                 itemReward = isChoiceEUsed ? itemRewardEUsed : itemRewardE;
                 itemDestroy = isChoiceEUsed ? itemDestroyEUsed : itemDestroyE;
+                requiredHealth = requiredHealthE;
+                requiredXP = requiredXPE;
+                requiredTool = requiredToolE;
+                requiredFlagCondition = requiredFlagConditionE;
+                requiredMessage = requiredMessageE;
+                setFlagCondition = setFlagConditionE;
                 break;
             default:
                 return null;
@@ -1007,7 +1465,53 @@ public class Scene {
             player.removeItem(itemDestroy);
         }
 
-        return new ChoiceResult(oldHealth, appliedDamage, oldXP, appliedXP, effectMessage);
+        return new ChoiceResult(
+                oldHealth,
+                appliedDamage,
+                oldXP,
+                appliedXP,
+                effectMessage,
+                itemReward,
+                itemDestroy,
+                requiredHealth,
+                requiredXP,
+                requiredTool,
+                requiredFlagCondition,
+                requiredMessage,
+                setFlagCondition);
+    }
+
+    private boolean canMakeChoice(String choice, Character player) {
+
+        this.requiredEffect = getRequiredChoiceEffect(choice);
+
+        // Validasi health
+        if (player.getHealth() < requiredEffect.getRequiredHealth()) {
+            return false;
+        }
+
+        // Validasi XP
+        if (player.getXP() < requiredEffect.getRequiredXP()) {
+            return false;
+        }
+
+        // Validasi tool
+        if (requiredEffect.getRequiredTool() != null && !player.hasItem(requiredEffect.getRequiredTool())) {
+            return false;
+        }
+
+        // Validasi flag condition
+        if (requiredEffect.getRequiredFlagCondition() != null) {
+            for (Map.Entry<String, Boolean> entry : requiredEffect.getRequiredFlagCondition().entrySet()) {
+                String flag = entry.getKey();
+                boolean requiredValue = entry.getValue();
+                if (!player.getFlags().containsKey(flag) || player.getFlags().get(flag) != requiredValue) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
 }
